@@ -53,3 +53,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
   observer.observe(section);
 });
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const observerOptions = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.15 // trigger when ~15% visible
+    };
+
+    const callback = (entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target); // if only once
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(callback, observerOptions);
+    document.querySelectorAll(".slide-up").forEach(el => {
+      observer.observe(el);
+    });
+  });
+
